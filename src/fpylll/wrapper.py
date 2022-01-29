@@ -25,7 +25,12 @@ Note that all operations on this object are carried out on the transpose of this
 method in wraper.cpp for this). This and other such behaviour on these parameters is described in
 some detail in gso_interface.h.
 """
+import sys
 from math import ceil, log
+
+
+from fplll.fplll import LLL_VERBOSE
+
 
 from fpylll import IntegerMatrix
 from fpylll.util import get_precision
@@ -93,3 +98,13 @@ class Wrapper:
         p *= ETA_DEP[em]
 
         return kappa < p
+
+    def call_lll(self, bz, uz, u_invZ, method, precision, delta, eta):
+        if self.flags & LLL_VERBOSE:
+            call_info = '====== Wrapper: calling %s method' % method # TODO: Add F, Z types
+            if precision > 0:
+                call_info += '(precision=%i)' % precision
+            call_info += ' ======'
+            print(call_info, sys.stderr)
+
+
